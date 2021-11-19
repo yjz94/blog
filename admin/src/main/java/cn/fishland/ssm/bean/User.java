@@ -11,9 +11,9 @@ import java.sql.Timestamp;
  */
 public class User {
 
-    protected Integer id;
-    protected Timestamp createDate;
-    protected Timestamp updateDate;
+    private Integer id;
+    private Timestamp createDate;
+    private Timestamp updateDate;
     private String name;
     private String email;
     private String password;
