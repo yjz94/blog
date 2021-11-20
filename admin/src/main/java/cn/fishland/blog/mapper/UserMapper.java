@@ -1,6 +1,6 @@
-package cn.fishland.ssm.mapper;
+package cn.fishland.blog.mapper;
 
-import cn.fishland.ssm.bean.User;
+import cn.fishland.blog.bean.User;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;

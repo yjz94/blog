@@ -1,8 +1,8 @@
-package cn.fishland.ssm.service.impl;
+package cn.fishland.blog.service.impl;
 
-import cn.fishland.ssm.bean.User;
-import cn.fishland.ssm.mapper.UserMapper;
-import cn.fishland.ssm.service.UserService;
+import cn.fishland.blog.bean.User;
+import cn.fishland.blog.mapper.UserMapper;
+import cn.fishland.blog.service.UserService;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;

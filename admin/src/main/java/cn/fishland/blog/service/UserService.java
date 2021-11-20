@@ -1,7 +1,6 @@
-package cn.fishland.ssm.service;
+package cn.fishland.blog.service;
 
-import cn.fishland.ssm.bean.User;
-import org.springframework.stereotype.Service;
+import cn.fishland.blog.bean.User;
 
 import java.io.IOException;
 import java.util.List;

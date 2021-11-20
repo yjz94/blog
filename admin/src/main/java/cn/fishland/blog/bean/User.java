@@ -1,4 +1,4 @@
-package cn.fishland.ssm.bean;
+package cn.fishland.blog.bean;
 
 import java.sql.Timestamp;
 
