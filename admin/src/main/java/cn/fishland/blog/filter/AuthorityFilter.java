@@ -2,9 +2,10 @@ package cn.fishland.blog.filter;
 
 
 import org.apache.log4j.Logger;
-import org.slf4j.spi.LoggerFactoryBinder;
 
 import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
@@ -16,6 +17,8 @@ import java.io.IOException;
  */
 public class AuthorityFilter implements Filter {
 
+    Logger logger = Logger.getLogger(AuthorityFilter.class);
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -23,9 +26,14 @@ public class AuthorityFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        Logger logger = Logger.getLogger(AuthorityFilter.class);
-        logger.info("AuthorityFilter run...");
-        filterChain.doFilter(servletRequest, servletResponse);
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        HttpServletResponse response = (HttpServletResponse) servletResponse;
+        String name = (String) request.getSession().getAttribute("name");
+        if (name == null || name.length() == 0) {
+            response.sendRedirect("/admin/login");
+        } else {
+            filterChain.doFilter(servletRequest, servletResponse);
+        }
     }
 
     @Override

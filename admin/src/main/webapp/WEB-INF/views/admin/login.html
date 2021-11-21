@@ -3,60 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <title>登录 - FishLand</title>
-    <link rel="stylesheet" type="text/css" href="../css/default/easyui.css">
-    <link rel="stylesheet" type="text/css" href="../css/icon.css">
-    <script type="text/javascript" src="../js/jquery.min.js"></script>
-    <script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
-
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/default/easyui.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/icon.css}">
+    <script type="text/javascript" th:src="@{/static/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/jquery.easyui.min.js}"></script>
     <style>
         .box {
             position: absolute;;
             top: 50%;
             left: 50%;
-            margin-left: -170px;
+            margin-left: -200px;
             margin-top: -80px;
         }
     </style>
 </head>
 <body class="box">
 <div data-options="" class="easyui-panel" title="登录">
-    <div style="padding:10px 60px 20px 60px">
-        <form id="ff" method="post">
+    <div style="padding:10px 60px 20px 60px;">
+        <form th:action="@{/auth}" method="post">
             <table cellpadding="5">
                 <tr>
+                    <span style="color: red;" th:text="${message}"></span>
+                </tr>
+                <tr>
                     <td>用户名:</td>
-                    <td><input class="easyui-textbox" type="text" name="name" data-options="required:true"/></td>
+                    <td><input class="easyui-textbox" name="name"/></td>
                 </tr>
                 <tr>
                     <td>密码:</td>
-                    <td><input class="easyui-textbox" type="text" name="email"
-                               data-options="required:true,validType:'email'"/></td>
+                    <td><input class="easyui-passwordbox" name="password"/></td>
                 </tr>
                 <tr>
-                    <td><a id="btn" href="#" class="easyui-linkbutton">登录</a></td>
+                    <td>验证码:</td>
+                    <td>
+                        <input class="easyui-passwordbox" name="code"/><br/>
+                        <img th:src="@{/code.jpg}">
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="submit" class="easyui-linkbutton" style="padding: 5px;"/></td>
                 </tr>
             </table>
         </form>
     </div>
 </div>
-<script>
-    function loadLocal() {
-        $('#ff').form('load', {
-            name: 'myname',
-            email: 'mymail@gmail.com',
-            subject: 'subject',
-            message: 'message',
-            language: 'en'
-        });
-    }
-
-    function loadRemote() {
-        $('#ff').form('load', 'form_data1.json');
-    }
-
-    function clearForm() {
-        $('#ff').form('clear');
-    }
-</script>
 </body>
 </html>
