@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <link rel="stylesheet" type="text/css" href="../../css/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../css/icon.css">
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.easyui.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/wangeditor@latest/dist/wangEditor.min.js"></script>
+</head>
+<body>
+<form action="admin/API/article/insert" method="post">
+    <input type="hidden" name="articleId" id="articleId" value="${articleId}"/>
+    <input type="hidden" name="content" id="content"/>
+    <input type="hidden" name="text" id="text"/>
+    <input type="hidden" name="crudType" id="crudType" value="${crudType}"/>
+
+    <div style="padding: 5px;">
+        <label for="title">标题</label>
+        <input class="easyui-textbox" id="title" name="title" style="width: 50%"/>
+    </div>
+
+    <div style="padding: 5px;">
+        <label for="tags">分类</label>
+        <input class="easyui-tagbox" id="tags" name="tags" style="width: 50%">
+    </div>
+
+    <div style="padding: 5px;">
+        <div id="articleContent"></div>
+    </div>
+
+    <div class="form-group" style="text-align: center;">
+        <button type="button" class="easyui-linkbutton" iconCls="icon-add" onclick="insertArticle()">提交</button>
+        <button type="button" class="easyui-linkbutton" iconCls="icon-tip" onclick="waitCon()">预览</button>
+        <button type="button" class="easyui-linkbutton" iconCls="icon-save" onclick="draftSave()">保存</button>
+    </div>
+</form>
+<!-- 引入 wangEditor.min.js -->
+<script type="text/javascript">
+    const E = window.wangEditor
+    const editor = new E('#articleContent')
+    editor.config.height = 500
+
+    // 配置 onchange 回调函数
+    editor.config.onchange = function (newHtml) {
+        setVal(newHtml)
+    };
+
+    // 配置触发 onchange 的时间频率，默认为 200ms
+    editor.config.onchangeTimeout = 500; // 修改为 500ms
+
+    // 配置图片上传地址
+    editor.config.uploadImgServer = 'admin/API/attachment/insert/editor'
+
+    // 默认情况下，显示所有菜单
+    editor.config.menus = [
+        'head',
+        'bold',
+        'fontSize',
+        'fontName',
+        'italic',
+        'underline',
+        'strikeThrough',
+        'indent',
+        'lineHeight',
+        'foreColor',
+        'backColor',
+        'link',
+        'list',
+        'todo',
+        'justify',
+        'quote',
+        'emoticon',
+        'image',
+        'table',
+        'code',
+        'splitLine',
+        'undo',
+        'redo',
+    ]
+
+    // 类型限制
+    editor.config.uploadImgAccept = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'];
+
+    // 设置每次上传文件个数（默认100个）
+    editor.config.uploadImgMaxLength = 1
+
+    // 设置图片上传自定义参数
+    // editor.config.uploadImgParams = {'master': $('#articleId').val()}
+    editor.create()
+</script>
+
+</body>
+</html>
