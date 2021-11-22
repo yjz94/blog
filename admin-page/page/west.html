@@ -1,26 +1,29 @@
 <div id="aa" class="easyui-accordion" style="width:200px;">
-    <div title="Title1" data-options="iconCls:'icon-save'">
-        <ul class="easyui-tree">
-            <li>index.html</li>
-            <li>about.html</li>
-            <li>welcome.html</li>
-        </ul>
-    </div>
-    <div title="Title2" data-options="iconCls:'icon-reload',selected:true">
-        <ul class="easyui-tree">
-            <li>index.html</li>
-            <li>about.html</li>
-            <li>welcome.html</li>
-        </ul>
-    </div>
-    <div title="Title3">
-        <ul class="easyui-tree">
-            <li>index.html</li>
-            <li>about.html</li>
-            <li>welcome.html</li>
-        </ul>
-    </div>
+    <ul class="easyui-tree" id="westUl">
+        <li>
+            <a href="#" style="text-decoration: none;color: #000000"
+               onclick="addTab('新增文章','center/article-add.html')">新增文章</a>
+        </li>
+        <li>
+            <a href="#" style="text-decoration: none;color: #000000"
+               onclick="addTab('文章管理','center/article-manager.html')">文章管理</a>
+        </li>
+        <li>附件管理</li>
+        <li>类别管理</li>
+        <li>标签管理</li>
+    </ul>
 </div>
 <script>
-
+    function addTab(title, url) {
+        if ($('#centerTab').tabs('exists', title)) {
+            $('#centerTab').tabs('select', title);
+        } else {
+            var content = '<iframe scrolling="auto" frameborder="0"  src="' + url + '" style="width:100%;height:100%;"></iframe>';
+            $('#centerTab').tabs('add', {
+                title: title,
+                content: content,
+                closable: true
+            });
+        }
+    }
 </script>
