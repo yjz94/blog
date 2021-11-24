@@ -37,8 +37,16 @@ http://www.springframework.org/schema/context/spring-context.xsd">
     </bean>
 
     <mvc:view-controller path="/" view-name="front/index"/>
+
     <mvc:view-controller path="/login" view-name="admin/login"/>
     <mvc:view-controller path="/admin/index" view-name="admin/index"/>
+    <mvc:view-controller path="/admin/center" view-name="admin/center"/>
+    <mvc:view-controller path="/admin/south" view-name="admin/south"/>
+    <mvc:view-controller path="/admin/west" view-name="admin/west"/>
+
+    <mvc:view-controller path="/admin/center/home" view-name="admin/center/home"/>
+    <mvc:view-controller path="/admin/center/articleAdd" view-name="admin/center/article-add"/>
+    <mvc:view-controller path="/admin/center/articleManager" view-name="admin/center/article-manager"/>
 
     <!--开发静态资源访问权限-->
     <mvc:default-servlet-handler/>

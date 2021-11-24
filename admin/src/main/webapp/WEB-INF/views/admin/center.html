@@ -1,9 +1,9 @@
 <div id="centerTab" class="easyui-tabs" style="height:100%;">
-    <div title="主页" style="padding:20px;display:none;" data-options="href:'center/home.html'"></div>
+    <div title="主页" style="padding:20px;display:none;" data-options="href:'center/home'"></div>
 
     <div title="Tab3" data-options="iconCls:'icon-reload',closable:true" style="padding:5px;display:none;">
         <table class="easyui-datagrid" title="DataGrid Complex Toolbar" style="height: 100%"
-               data-options="rownumbers:true,singleSelect:true,url:'datagrid_data1.json',method:'get',toolbar:'#tb'">
+               data-options="rownumbers:true,singleSelect:true,url:'http://localhost:8080/admin/static/datagrid_data1.json',method:'get',toolbar:'#tb'">
             <thead>
             <tr>
                 <th data-options="field:'itemid',width:80">Item ID</th>

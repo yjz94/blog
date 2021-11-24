@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="height: 99%;width: 99%">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="../../css/default/easyui.css">
-    <link rel="stylesheet" type="text/css" href="../../css/icon.css">
-    <script type="text/javascript" src="../../js/jquery.min.js"></script>
-    <script type="text/javascript" src="../../js/jquery.easyui.min.js"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/default/easyui.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/icon.css}">
+    <script type="text/javascript" th:src="@{/static/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/jquery.easyui.min.js}"></script>
 </head>
-<body>
-<table class="easyui-datagrid" title="DataGrid Complex Toolbar" style="height: 100%"
-       data-options="rownumbers:true,singleSelect:true,url:'datagrid_data1.json',method:'get',toolbar:'#tb'">
+<body style="height: 99%;width: 99%">
+<table class="easyui-datagrid" style="height: 100%;width: 100%"
+       data-options="rownumbers:true,singleSelect:true,url:'/admin/static/datagrid_data1.json',method:'get',toolbar:'#tb'">
     <thead>
     <tr>
-        <th data-options="field:'itemid',width:80">Item ID</th>
+        <th data-options="field:'itemid',width:80">ID</th>
         <th data-options="field:'productid',width:100">Product</th>
         <th data-options="field:'listprice',width:80,align:'right'">List Price</th>
         <th data-options="field:'unitcost',width:80,align:'right'">Unit Cost</th>
@@ -23,8 +23,9 @@
 </table>
 <div id="tb" style="padding:5px;height:auto">
     <div style="margin-bottom:5px">
-        <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"></a>
-        <a href="#" class="easyui-linkbutton" iconCls="icon-save" plain="true"></a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="articleController(1)" iconCls="icon-add"
+           plain="true"></a>
+        <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true"></a>
         <a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true"></a>
     </div>
     <div>
@@ -42,6 +43,23 @@
     </div>
 </div>
 
+<div id="articleWindows" class="easyui-window" title="文章操作" data-options="modal:true,closed:true"
+     style="width:90%;height:90%;padding:10px;">
+    <iframe id="articleWindowsContent" scrolling="auto" frameborder="0" style="width:100%;height:100%;"></iframe>
+</div>
+<script>
+    function articleController(index) {
+        if (index === 1) {
+            $('#articleWindowsContent').attr('src', 'articleAdd')
+            $('#articleWindows').window('open')
+        }
+
+        if (index === 2) {
+
+        }
+
+    }
+</script>
 </body>
 </html>
 

@@ -1,6 +1,5 @@
 package cn.fishland.blog.filter;
 
-
 import org.apache.log4j.Logger;
 
 import javax.servlet.*;
@@ -26,18 +25,18 @@ public class AuthorityFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        /*HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String name = (String) request.getSession().getAttribute("name");
         if (name == null || name.length() == 0) {
             response.sendRedirect("/admin/login");
         } else {
             filterChain.doFilter(servletRequest, servletResponse);
-        }
+        }*/
+        filterChain.doFilter(servletRequest, servletResponse);
     }
 
     @Override
     public void destroy() {
-
     }
 }

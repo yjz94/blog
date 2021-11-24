@@ -1,6 +1,5 @@
 package cn.fishland.blog.mapper;
 
-import cn.fishland.blog.bean.User;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -13,8 +12,5 @@ import java.util.List;
  * @date 2021/11/19 7:59 下午
  */
 public interface UserMapper {
-
-    @Select("select * from user")
-    List<User> findAll();
 
 }

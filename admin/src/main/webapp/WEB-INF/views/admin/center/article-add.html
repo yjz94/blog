@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="zh">
 <head>
-    <link rel="stylesheet" type="text/css" href="../../css/default/easyui.css">
-    <link rel="stylesheet" type="text/css" href="../../css/icon.css">
-    <script type="text/javascript" src="../../js/jquery.min.js"></script>
-    <script type="text/javascript" src="../../js/jquery.easyui.min.js"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/default/easyui.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/icon.css}">
+    <script type="text/javascript" th:src="@{/static/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/jquery.easyui.min.js}"></script>
     <script src="https://cdn.jsdelivr.net/npm/wangeditor@latest/dist/wangEditor.min.js"></script>
 </head>
 <body>
@@ -29,9 +29,11 @@
     </div>
 
     <div class="form-group" style="text-align: center;">
-        <button type="button" class="easyui-linkbutton" iconCls="icon-add" onclick="insertArticle()">提交</button>
-        <button type="button" class="easyui-linkbutton" iconCls="icon-tip" onclick="waitCon()">预览</button>
         <button type="button" class="easyui-linkbutton" iconCls="icon-save" onclick="draftSave()">保存</button>
+        <button type="button" class="easyui-linkbutton" iconCls="icon-tip" onclick="waitCon()">预览</button>
+        <button type="button" class="easyui-linkbutton" iconCls="icon-cancel"
+                onclick="$('#articleWindowsContent').window('close')">取消
+        </button>
     </div>
 </form>
 <!-- 引入 wangEditor.min.js -->

@@ -63,7 +63,7 @@ public class FunctionUtil {
     }
 
     public static void main(String[] args) {
-        String s = generateSha256("83E4A96AED96436C621B9809E258B309", "1637494706");
+        String s = generateSha256("83E4A96AED96436C621B9809E258B309", "123");
 
         System.out.println(s);
     }

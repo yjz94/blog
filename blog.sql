@@ -32,7 +32,7 @@ CREATE TABLE `attachment`
     `updateDate`  TIMESTAMP COMMENT '附件修改时间',
     `contentType` VARCHAR(100) NOT NULL COMMENT '附件类型',
     `file`        LONGBLOB     NOT NULL COMMENT '存放附件二进制内容',
-    `aid`         INT          NOT NULL COMMENT '关联文章id',
+    `aid`         INT COMMENT '关联文章id',
     `type`        INT          NOT NULL COMMENT '附件类型（图片，视频，文本...）',
     `status`      INT          NOT NULL COMMENT '附件状态',
     PRIMARY KEY (`id`),
