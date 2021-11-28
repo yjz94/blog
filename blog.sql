@@ -47,7 +47,7 @@ CREATE TABLE `type`
     `createDate` TIMESTAMP   NOT NULL COMMENT '类别创建时间',
     `updateDate` TIMESTAMP COMMENT '类别修改时间',
     `name`       VARCHAR(50) NOT NULL COMMENT '类别名称',
-    `type`       INT         NOT NULL COMMENT '标记是标签还是类别',
+    `type`       INT         NOT NULL COMMENT '标记是标签还是类别(1:类别，2：标签)',
     `status`     INT         NOT NULL COMMENT '类别状态',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB

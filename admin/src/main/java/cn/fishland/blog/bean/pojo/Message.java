@@ -11,6 +11,7 @@ public class Message {
 
     private String message;
     private Integer error;
+    private Object data;
 
     public Message() {
     }
@@ -23,6 +24,12 @@ public class Message {
     public Message(String message, Integer error) {
         this.message = message;
         this.error = error;
+    }
+
+    public Message(Object data) {
+        this.error = 0;
+        this.message = "success";
+        this.data = data;
     }
 
     public String getMessage() {
@@ -39,6 +46,14 @@ public class Message {
 
     public void setError(Integer error) {
         this.error = error;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
     }
 
     @Override

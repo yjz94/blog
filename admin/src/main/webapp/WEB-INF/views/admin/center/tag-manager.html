@@ -1,49 +1,174 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="height: 99%;width: 99%">
 <head>
-  <meta charset="UTF-8">
-  <link rel="stylesheet" type="text/css" href="../../css/default/easyui.css">
-  <link rel="stylesheet" type="text/css" href="../../css/icon.css">
-  <script type="text/javascript" src="../../js/jquery.min.js"></script>
-  <script type="text/javascript" src="../../js/jquery.easyui.min.js"></script>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/default/easyui.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/icon.css}">
+    <script type="text/javascript" th:src="@{/static/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/jquery.easyui.min.js}"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.1/axios.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/qs/6.10.1/qs.js"></script>
 </head>
-<body>
-<table class="easyui-datagrid" title="DataGrid Complex Toolbar" style="height: 100%"
-       data-options="rownumbers:true,singleSelect:true,url:'datagrid_data1.json',method:'get',toolbar:'#tb'">
-  <thead>
-  <tr>
-    <th data-options="field:'itemid',width:80">Item ID</th>
-    <th data-options="field:'productid',width:100">Product</th>
-    <th data-options="field:'listprice',width:80,align:'right'">List Price</th>
-    <th data-options="field:'unitcost',width:80,align:'right'">Unit Cost</th>
-    <th data-options="field:'attr1',width:240">Attribute</th>
-    <th data-options="field:'status',width:60,align:'center'">Status</th>
-  </tr>
-  </thead>
-</table>
+<body style="height: 99%;width: 99%">
+
 <div id="tb" style="padding:5px;height:auto">
-  <div style="margin-bottom:5px">
-    <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"></a>
-    <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true"></a>
-    <a href="#" class="easyui-linkbutton" iconCls="icon-save" plain="true"></a>
-    <a href="#" class="easyui-linkbutton" iconCls="icon-cut" plain="true"></a>
-    <a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true"></a>
-  </div>
-  <div>
-    Date From: <input class="easyui-datebox" style="width:80px">
-    To: <input class="easyui-datebox" style="width:80px">
-    Language:
-    <select class="easyui-combobox" panelHeight="auto" style="width:100px">
-      <option value="java">Java</option>
-      <option value="c">C</option>
-      <option value="basic">Basic</option>
-      <option value="perl">Perl</option>
-      <option value="python">Python</option>
-    </select>
-    <a href="#" class="easyui-linkbutton" iconCls="icon-search">Search</a>
-  </div>
+    <div style="margin-bottom:5px">
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="typeController(1)"
+           iconCls="icon-add" plain="true"></a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="typeController(2)"
+           iconCls="icon-edit" plain="true"></a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="typeController(3)"
+           iconCls="icon-remove" plain="true"></a>
+    </div>
+    <div>
+        Date From: <input class="easyui-datebox" style="width:80px">
+        To: <input class="easyui-datebox" style="width:80px">
+        Status:
+        <select class="easyui-combobox" panelHeight="auto" style="width:100px">
+            <option value="1">启用</option>
+            <option value="0">禁用</option>
+        </select>
+        <a href="#" class="easyui-linkbutton" iconCls="icon-search">Search</a>
+    </div>
 </div>
 
+<table id="typeDg" title="标签管理" class="easyui-datagrid"
+       data-options="singleSelect:true,
+                     url:'../type',
+                     method:'get',
+                     toolbar:'#tb',
+				     pagination:true,
+				     pageSize:10">
+    <thead>
+    <tr>
+        <th data-options="field:'id',width:100">ID</th>
+        <th data-options="field:'name',width:100">name</th>
+        <th data-options="field:'status',width:100,align:'center'">Status</th>
+    </tr>
+    </thead>
+</table>
+
+<div id="typeWindow" class="easyui-window" title="标签管理"
+     data-options="modal:true,closed:true,minimizable:false" style="width:250px;height:150px;padding:10px;">
+    <form method="post" action="../type">
+        <input type="hidden" id="id" name="id">
+        <input type="hidden" id="_method" name="_method">
+        <table cellpadding="5">
+            <tr>
+                <td>Name:</td>
+                <td><input class="easyui-textbox" type="text" id="name" name="name" data-options="required:true"/></td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                    <button type="button" class="easyui-linkbutton" onclick="typeAdd()" iconCls="icon-save">保存</button>
+                    <button type="button" class="easyui-linkbutton" iconCls="icon-cancel"
+                            onclick="$('#typeWindow').window('close')">取消
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    method = "post"
+
+    function typeController(flag) {
+        if (flag === 1) {
+            $('#typeWindow').window('open')
+            method = "post"
+        }
+
+        if (flag === 2) {
+            tableRow = $('#typeDg').datagrid('getSelected')
+            if (tableRow == null) {
+                center()
+                return
+            }
+            $('#id').attr('value', tableRow.id)
+            $('#name').textbox({value: tableRow.name})
+            $('#typeWindow').window('open')
+            method = "put"
+        }
+
+        if (flag === 3) {
+            tableRow = $('#typeDg').datagrid('getSelected')
+            if (tableRow == null) {
+                center()
+                return
+            }
+
+            $('#id').attr('value', tableRow.id)
+            $('#name').textbox({value: tableRow.name})
+            method = "delete"
+            typeDelete()
+        }
+
+    }
+
+    function typeDelete() {
+        $.messager.confirm('Confirm', '你确定要删除吗?', function (r) {
+            if (r) {
+                typeAdd()
+            }
+        });
+    }
+
+    function center() {
+        $.messager.show({
+            title: '错误提示',
+            msg: '请选择一个需要操作的行',
+            showType: 'fade',
+            showSpeed: 400,
+            style: {
+                right: '',
+                bottom: ''
+            }
+        });
+    }
+
+    function typeAdd() {
+        const id = $('#id').attr('value')
+        const name = $('#name').textbox('getValue')
+        axios({
+            url: '../type',
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            data: {
+                id: id,
+                name: name,
+                status: 1,
+                _method: method
+            },
+            transformRequest: [
+                function (data) {
+                    data = Qs.stringify(data);
+                    return data;
+                }
+            ],
+            withCredentials: true
+        }).then(function (response) {
+            if (response.data.error === 0) {
+                $('#typeWindow').window('close')
+                alert(response.data.message)
+                $('#typeDg').datagrid('reload')
+            } else {
+                alert('失败：' + response.data.message)
+            }
+
+            clearInput()
+        })
+    }
+
+    function clearInput() {
+        $('#id').attr('value', '')
+        $('#_method').attr('_method', '')
+        $('#name').textbox('clear')
+    }
+</script>
 </body>
 </html>
-
