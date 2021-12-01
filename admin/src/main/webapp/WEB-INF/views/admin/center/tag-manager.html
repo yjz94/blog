@@ -13,11 +13,11 @@
 
 <div id="tb" style="padding:5px;height:auto">
     <div style="margin-bottom:5px">
-        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="typeController(1)"
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="tagController(1)"
            iconCls="icon-add" plain="true"></a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="typeController(2)"
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="tagController(2)"
            iconCls="icon-edit" plain="true"></a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="typeController(3)"
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="tagController(3)"
            iconCls="icon-remove" plain="true"></a>
     </div>
     <div>
@@ -32,9 +32,9 @@
     </div>
 </div>
 
-<table id="typeDg" title="标签管理" class="easyui-datagrid"
+<table id="tagDg" title="标签管理" class="easyui-datagrid"
        data-options="singleSelect:true,
-                     url:'../type',
+                     url:'../tag',
                      method:'get',
                      toolbar:'#tb',
 				     pagination:true,
@@ -48,9 +48,9 @@
     </thead>
 </table>
 
-<div id="typeWindow" class="easyui-window" title="标签管理"
+<div id="tagWindow" class="easyui-window" title="标签管理"
      data-options="modal:true,closed:true,minimizable:false" style="width:250px;height:150px;padding:10px;">
-    <form method="post" action="../type">
+    <form method="post" action="../tag">
         <input type="hidden" id="id" name="id">
         <input type="hidden" id="_method" name="_method">
         <table cellpadding="5">
@@ -62,9 +62,9 @@
                 <td>
                 </td>
                 <td>
-                    <button type="button" class="easyui-linkbutton" onclick="typeAdd()" iconCls="icon-save">保存</button>
+                    <button type="button" class="easyui-linkbutton" onclick="tagAdd()" iconCls="icon-save">保存</button>
                     <button type="button" class="easyui-linkbutton" iconCls="icon-cancel"
-                            onclick="$('#typeWindow').window('close')">取消
+                            onclick="$('#tagWindow').window('close')">取消
                     </button>
                 </td>
             </tr>
@@ -75,26 +75,26 @@
 <script>
     method = "post"
 
-    function typeController(flag) {
+    function tagController(flag) {
         if (flag === 1) {
-            $('#typeWindow').window('open')
+            $('#tagWindow').window('open')
             method = "post"
         }
 
         if (flag === 2) {
-            tableRow = $('#typeDg').datagrid('getSelected')
+            tableRow = $('#tagDg').datagrid('getSelected')
             if (tableRow == null) {
                 center()
                 return
             }
             $('#id').attr('value', tableRow.id)
             $('#name').textbox({value: tableRow.name})
-            $('#typeWindow').window('open')
+            $('#tagWindow').window('open')
             method = "put"
         }
 
         if (flag === 3) {
-            tableRow = $('#typeDg').datagrid('getSelected')
+            tableRow = $('#tagDg').datagrid('getSelected')
             if (tableRow == null) {
                 center()
                 return
@@ -103,15 +103,15 @@
             $('#id').attr('value', tableRow.id)
             $('#name').textbox({value: tableRow.name})
             method = "delete"
-            typeDelete()
+            tagDelete()
         }
 
     }
 
-    function typeDelete() {
+    function tagDelete() {
         $.messager.confirm('Confirm', '你确定要删除吗?', function (r) {
             if (r) {
-                typeAdd()
+                tagAdd()
             }
         });
     }
@@ -129,11 +129,11 @@
         });
     }
 
-    function typeAdd() {
+    function tagAdd() {
         const id = $('#id').attr('value')
         const name = $('#name').textbox('getValue')
         axios({
-            url: '../type',
+            url: '../tag',
             method: 'post',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -153,9 +153,9 @@
             withCredentials: true
         }).then(function (response) {
             if (response.data.error === 0) {
-                $('#typeWindow').window('close')
+                $('#tagWindow').window('close')
                 alert(response.data.message)
-                $('#typeDg').datagrid('reload')
+                $('#tagDg').datagrid('reload')
             } else {
                 alert('失败：' + response.data.message)
             }

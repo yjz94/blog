@@ -1,8 +1,8 @@
 package cn.fishland.blog.controller;
 
-import cn.fishland.blog.bean.Type;
+import cn.fishland.blog.bean.Tag;
 import cn.fishland.blog.bean.pojo.Message;
-import cn.fishland.blog.service.TypeService;
+import cn.fishland.blog.service.TagService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 /**
- * 文章类别控制类
+ * 文章标签控制类
  *
  * @author fishland
  * @version 1.0
@@ -18,24 +18,24 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/admin")
-public class TypeController {
+public class TagController {
 
-    Logger log = Logger.getLogger(TypeController.class);
+    Logger log = Logger.getLogger(TagController.class);
 
     @Autowired
-    TypeService typeService;
+    TagService tagService;
 
     /**
      * 获得全部类别信息
      *
      * @return 数据
      */
-    @GetMapping("/type")
+    @GetMapping("/tag")
     public Map<String, Object> typeAll(Integer page, Integer rows) {
         try {
-            return typeService.getAll(page, rows);
+            return tagService.getAll(page, rows);
         } catch (Exception e) {
-            log.info(String.format("add type error=[%s]", e.getMessage()));
+            log.info(String.format("add tag error=[%s]", e.getMessage()));
             return null;
         }
     }
@@ -43,15 +43,15 @@ public class TypeController {
     /**
      * 新增类别
      *
-     * @param type 类别相关信息
+     * @param tag 类别相关信息
      * @return 存储返回数据
      */
-    @PostMapping("/type")
-    public Message typeAdd(Type type) {
+    @PostMapping("/tag")
+    public Message typeAdd(Tag tag) {
         try {
-            return typeService.add(type);
+            return tagService.add(tag);
         } catch (Exception e) {
-            log.info(String.format("add type error=[%s]", e.getMessage()));
+            log.info(String.format("add tag error=[%s]", e.getMessage()));
             return new Message("error", 1);
         }
     }
@@ -59,31 +59,31 @@ public class TypeController {
     /**
      * 修改类别
      *
-     * @param type 类别信息
+     * @param tag 类别信息
      * @return 返回提示信息
      */
-    @PutMapping("/type")
-    public Message typeUpdate(Type type) {
-        if (type.getId() == null || type.getId() < 0) {
+    @PutMapping("/tag")
+    public Message typeUpdate(Tag tag) {
+        if (tag.getId() == null || tag.getId() < 0) {
             return new Message("类别ID存在问题");
         }
         try {
-            return typeService.update(type);
+            return tagService.update(tag);
         } catch (Exception e) {
-            log.info(String.format("update type error=[%s]", e.getMessage()));
+            log.info(String.format("update tag error=[%s]", e.getMessage()));
             return new Message("error", 1);
         }
     }
 
-    @DeleteMapping("/type")
-    public Message typeDelete(Type type) {
-        if (type == null || type.getId() == null || type.getId() < 0) {
+    @DeleteMapping("/tag")
+    public Message typeDelete(Tag tag) {
+        if (tag == null || tag.getId() == null || tag.getId() < 0) {
             return new Message("类别ID存在问题");
         }
         try {
-            return typeService.delete(type.getId());
+            return tagService.delete(tag.getId());
         } catch (Exception e) {
-            log.info(String.format("delete type error=[%s]", e.getMessage()));
+            log.info(String.format("delete tag error=[%s]", e.getMessage()));
             return new Message("error", 1);
         }
     }

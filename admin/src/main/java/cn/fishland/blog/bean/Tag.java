@@ -1,13 +1,13 @@
 package cn.fishland.blog.bean;
 
 /**
- * 文章类型实体类
+ * 文章标签实体类
  *
  * @author fishland
  * @version 1.0
  * @date 2021/11/21 11:26 下午
  */
-public class Type extends BaseBean {
+public class Tag extends BaseBean {
 
     private String name;
     private Integer type;
