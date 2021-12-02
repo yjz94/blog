@@ -36,6 +36,13 @@ http://www.springframework.org/schema/context/spring-context.xsd">
         </property>
     </bean>
 
+    <!--文件解析器-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="utf-8"/>
+        <property name="maxInMemorySize" value="10485760"/>    <!-- 最大内存大小 -->
+        <property name="maxUploadSize" value="5242880"/>  <!-- 最大文件大小，-1为不限制大小 -->
+    </bean>
+
     <mvc:view-controller path="/" view-name="front/index"/>
 
     <mvc:view-controller path="/login" view-name="admin/login"/>
@@ -50,6 +57,7 @@ http://www.springframework.org/schema/context/spring-context.xsd">
 
     <mvc:view-controller path="/admin/center/typeManager" view-name="admin/center/type-manager"/>
     <mvc:view-controller path="/admin/center/tagManager" view-name="admin/center/tag-manager"/>
+    <mvc:view-controller path="/admin/center/attachmentManager" view-name="admin/center/attachment-manager"/>
 
     <!--开发静态资源访问权限-->
     <mvc:default-servlet-handler/>

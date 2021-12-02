@@ -1,7 +1,5 @@
 package cn.fishland.blog.bean;
 
-import java.sql.Blob;
-
 /**
  * 文章附件实体类
  *
@@ -12,9 +10,9 @@ import java.sql.Blob;
 public class Attachment extends BaseBean {
 
     private String contentType;
-    private Blob file;
+    private String file;
     private Integer aid;
-    private Integer type;
+    private String type;
 
     public String getContentType() {
         return contentType;
@@ -24,11 +22,11 @@ public class Attachment extends BaseBean {
         this.contentType = contentType;
     }
 
-    public Blob getFile() {
+    public String getFile() {
         return file;
     }
 
-    public void setFile(Blob file) {
+    public void setFile(String file) {
         this.file = file;
     }
 
@@ -40,11 +38,25 @@ public class Attachment extends BaseBean {
         this.aid = aid;
     }
 
-    public Integer getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(String type) {
         this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return "Attachment{" +
+                "contentType='" + contentType + '\'' +
+                ", file='" + file + '\'' +
+                ", aid=" + aid +
+                ", type=" + type +
+                ", id=" + id +
+                ", createDate=" + createDate +
+                ", updateDate=" + updateDate +
+                ", status=" + status +
+                '}';
     }
 }

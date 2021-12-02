@@ -1,9 +1,13 @@
 package cn.fishland.blog.util;
 
 import org.apache.log4j.Logger;
+import org.springframework.util.StringUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * 相关方法工具类
@@ -15,6 +19,12 @@ import java.security.MessageDigest;
 public class FunctionUtil {
 
     public static Logger logger = Logger.getLogger(FunctionUtil.class);
+
+    public static List<String> suffixList;
+
+    static {
+        suffixList = Arrays.asList("jpg", "gif", "png", "ico", "bmp", "jpeg");
+    }
 
     public static boolean auth(String key, String name, String password) {
         return password.equals(generateSha256(key, name));
@@ -62,10 +72,36 @@ public class FunctionUtil {
         return stringBuilder.toString();
     }
 
-    public static void main(String[] args) {
-        String s = generateSha256("83E4A96AED96436C621B9809E258B309", "123");
+    /**
+     * 获得随机uuid
+     *
+     * @return uuid字符串
+     */
+    public static String uuid() {
+        String uuid = UUID.randomUUID().toString();
+        if (StringUtils.isEmpty(uuid)) {
+            logger.info("Get UUID string error");
+            throw new NullPointerException("Get UUID string error!");
+        }
+        return uuid.replaceAll("-", "");
+    }
 
-        System.out.println(s);
+    /**
+     * 判断是否为图片
+     *
+     * @return true为图片，否则不为图片
+     */
+    public static boolean isImag(String suffix) {
+        if (StringUtils.hasLength(suffix)) {
+            return suffixList.contains(suffix);
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        String s = "pngs";
+
+        System.out.println(isImag(s));
     }
 
 }

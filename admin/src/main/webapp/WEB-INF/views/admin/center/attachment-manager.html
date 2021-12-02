@@ -1,49 +1,157 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="height: 99%;width: 99%">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="../../css/default/easyui.css">
-    <link rel="stylesheet" type="text/css" href="../../css/icon.css">
-    <script type="text/javascript" src="../../js/jquery.min.js"></script>
-    <script type="text/javascript" src="../../js/jquery.easyui.min.js"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/default/easyui.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/icon.css}">
+    <script type="text/javascript" th:src="@{/static/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/jquery.easyui.min.js}"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.1/axios.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/qs/6.10.1/qs.js"></script>
 </head>
-<body>
-<table class="easyui-datagrid" title="DataGrid Complex Toolbar" style="height: 100%"
-       data-options="rownumbers:true,singleSelect:true,url:'datagrid_data1.json',method:'get',toolbar:'#tb'">
-    <thead>
-    <tr>
-        <th data-options="field:'itemid',width:80">Item ID</th>
-        <th data-options="field:'productid',width:100">Product</th>
-        <th data-options="field:'listprice',width:80,align:'right'">List Price</th>
-        <th data-options="field:'unitcost',width:80,align:'right'">Unit Cost</th>
-        <th data-options="field:'attr1',width:240">Attribute</th>
-        <th data-options="field:'status',width:60,align:'center'">Status</th>
-    </tr>
-    </thead>
-</table>
+<body style="height: 99%;width: 99%">
 <div id="tb" style="padding:5px;height:auto">
     <div style="margin-bottom:5px">
-        <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"></a>
-        <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true"></a>
-        <a href="#" class="easyui-linkbutton" iconCls="icon-save" plain="true"></a>
-        <a href="#" class="easyui-linkbutton" iconCls="icon-cut" plain="true"></a>
-        <a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true"></a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="attachmentController(1)"
+           iconCls="icon-add" plain="true"></a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="attachmentController(3)"
+           iconCls="icon-remove" plain="true"></a>
     </div>
     <div>
         Date From: <input class="easyui-datebox" style="width:80px">
         To: <input class="easyui-datebox" style="width:80px">
-        Language:
+        Status:
         <select class="easyui-combobox" panelHeight="auto" style="width:100px">
-            <option value="java">Java</option>
-            <option value="c">C</option>
-            <option value="basic">Basic</option>
-            <option value="perl">Perl</option>
-            <option value="python">Python</option>
+            <option value="1">启用</option>
+            <option value="0">禁用</option>
         </select>
         <a href="#" class="easyui-linkbutton" iconCls="icon-search">Search</a>
     </div>
 </div>
 
+<table id="attachmentDg" title="附件管理" class="easyui-datagrid"
+       data-options="singleSelect:true,
+                     url:'../attachment',
+                     method:'get',
+                     toolbar:'#tb',
+				     pagination:true,
+				     pageSize:10">
+    <thead>
+    <tr>
+        <th data-options="field:'id',width:40">ID</th>
+        <th data-options="field:'file',width:100,formatter:formatFile">File</th>
+        <th data-options="field:'createDate',width:200,align:'center'">CreateDate</th>
+        <th data-options="field:'updateDate',width:200,align:'center'">UpdateDate</th>
+        <th data-options="field:'contentType',width:100,align:'center'">ContentType</th>
+        <th data-options="field:'type',width:100,align:'center'">Type</th>
+        <th data-options="field:'status',width:30,align:'center'">Status</th>
+    </tr>
+    </thead>
+</table>
+
+<div id="attachmentWindow" class="easyui-window" title="附件管理"
+     data-options="modal:true,closed:true,minimizable:false" style="width:350px;height:150px;padding:10px;">
+    <form method="post" action="../attachment" enctype="multipart/form-data"
+          target="iframe_display">
+        <input type="file" id="file" name="file"/>
+        <input type="submit" value="提交"/>
+    </form>
+</div>
+<!-- 空iframe，用于协助处理form提交后不进行页面跳转的问题 -->
+<iframe id="iframe_display" onload="iframeLoad()" name="iframe_display" style="display: none;"></iframe>
+<script>
+    function attachmentController(flag) {
+        if (flag === 1) {
+            $('#attachmentWindow').window('open')
+        }
+
+        if (flag === 2) {
+            tableRow = $('#attachmentDg').datagrid('getSelected')
+            if (tableRow == null) {
+                center()
+                return
+            }
+            $('#id').attr('value', tableRow.id)
+            $('#oldFileName').attr('value', tableRow.file)
+            $('#_method').attr('value', 'put')
+            $('#attachmentWindow').window('open')
+        }
+
+        if (flag === 3) {
+            tableRow = $('#attachmentDg').datagrid('getSelected')
+            if (tableRow == null) {
+                center()
+                return
+            }
+            attachmentDelete(tableRow.id, 'delete')
+        }
+
+    }
+
+    function attachmentDelete(id, method) {
+        $.messager.confirm('Confirm', '你确定要删除吗?', function (r) {
+            if (r) {
+                axios({
+                    url: '../attachment',
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    },
+                    data: {
+                        id: id,
+                        _method: method
+                    },
+                    transformRequest: [
+                        function (data) {
+                            data = Qs.stringify(data);
+                            return data;
+                        }
+                    ],
+                    withCredentials: true
+                }).then(function (response) {
+                    if (response.data.error === 0) {
+                        $('#attachmentWindow').window('close')
+                        alert(response.data.message)
+                        $('#attachmentDg').datagrid('reload')
+                    } else {
+                        alert('失败：' + response.data.message)
+                    }
+                    clearInput()
+                })
+            }
+        });
+    }
+
+    function center() {
+        $.messager.show({
+            title: '错误提示',
+            msg: '请选择一个需要操作的行',
+            showType: 'fade',
+            showSpeed: 400,
+            style: {
+                right: '',
+                bottom: ''
+            }
+        });
+    }
+
+    function clearInput() {
+        $('#id').attr('value', '')
+        $('#_method').attr('value', '')
+        $('#oldFileName').filebox('clear')
+        $('#file').filebox('clear')
+    }
+
+    function formatFile(val, row, index) {
+        return '<img style="width:100px;height:100px;" src="../attachment/' + row["id"] + '"/>';
+    }
+
+    function iframeLoad() {
+        $('#attachmentWindow').window('close')
+        $('#attachmentDg').datagrid('reload')
+        clearInput()
+    }
+
+</script>
 </body>
 </html>
-
